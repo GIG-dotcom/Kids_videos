@@ -1,4 +1,4 @@
-name: Kids Video Bot – Step 3 (Story)
+name: Kids Video Bot – Step 4 (Voice)
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: "0 */6 * * *"
 
 jobs:
-  generate-story:
+  generate-voice:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +18,14 @@ jobs:
       with:
         python-version: "3.10"
 
+    - name: Install eSpeak
+      run: sudo apt-get update && sudo apt-get install -y espeak
+
     - name: Generate story
       run: python scripts/generate_story.py
 
-    - name: Show story
-      run: cat output/story.txt
+    - name: Generate voice
+      run: python scripts/generate_voice.py
+
+    - name: List output files
+      run: ls -lh output
