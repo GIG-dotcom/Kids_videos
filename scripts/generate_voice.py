@@ -15,7 +15,7 @@ with open(story_file, "r") as f:
 
 # Generate voice using eSpeak
 command = [
-    "espeak",
+    "espeak-ng",
     "-s", "140",      # speed (kids-friendly)
     "-p", "60",       # pitch
     "-w", voice_file,
