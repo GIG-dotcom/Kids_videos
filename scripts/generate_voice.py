@@ -1,27 +1,25 @@
-import os
 import subprocess
+import os
 
 story_file = "output/story.txt"
 voice_file = "output/voice.wav"
+model_file = "models/voice.onnx"
 
-if not os.path.exists(story_file):
-    raise Exception("Story file not found")
-
-os.makedirs("output", exist_ok=True)
-
-# Read story text
 with open(story_file, "r") as f:
     text = f.read()
 
-# Generate voice using eSpeak
 command = [
-    "espeak-ng",
-    "-s", "140",      # speed (kids-friendly)
-    "-p", "60",       # pitch
-    "-w", voice_file,
-    text
+    "./piper/piper",
+    "--model", model_file,
+    "--output_file", voice_file
 ]
 
-subprocess.run(command, check=True)
+process = subprocess.Popen(
+    command,
+    stdin=subprocess.PIPE,
+    text=True
+)
 
-print("✅ Voice generated successfully:", voice_file)
+process.communicate(text)
+
+print("✅ Natural voice generated")
