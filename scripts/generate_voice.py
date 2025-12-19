@@ -1,4 +1,4 @@
-from piper import PiperVoice
+from gtts import gTTS
 import os
 import sys
 
@@ -8,17 +8,18 @@ voice_file = "output/voice.wav"
 os.makedirs("output", exist_ok=True)
 
 if not os.path.exists(story_file):
-    print("❌ story.txt missing")
+    print("❌ story.txt not found")
     sys.exit(1)
 
 with open(story_file, "r") as f:
-    text = f.read()
+    text = f.read().strip()
 
-# Load built-in English voice (safe & stable)
-voice = PiperVoice.load("en_US-lessac-medium")
+if not text:
+    print("❌ story.txt is empty")
+    sys.exit(1)
 
-with open(voice_file, "wb") as f:
-    voice.synthesize(text, f)
+tts = gTTS(text=text, lang="en", slow=False)
+tts.save(voice_file)
 
 if not os.path.exists(voice_file):
     print("❌ Voice generation failed")
