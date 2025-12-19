@@ -1,10 +1,10 @@
-name: Kids Video Bot – Step 8 (Test YouTube Connection)
+name: Kids Video Bot – Generate & Download Video
 
 on:
   workflow_dispatch:
 
 jobs:
-  test-youtube:
+  generate-video:
     runs-on: ubuntu-latest
 
     steps:
@@ -16,13 +16,28 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install Python dependencies
+    - name: Install system dependencies
       run: |
-        pip install google-api-python-client google-auth google-auth-oauthlib google-auth-httplib2
+        sudo apt-get update
+        sudo apt-get install -y espeak-ng ffmpeg
 
-    - name: Test YouTube connection
-      env:
-        YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-        YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-        YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-      run: python scripts/test_youtube_connection.py
+    - name: Install Python dependencies
+      run: pip install pillow
+
+    - name: Generate story
+      run: python scripts/generate_story.py
+
+    - name: Generate voice
+      run: python scripts/generate_voice.py
+
+    - name: Generate images
+      run: python scripts/generate_images.py
+
+    - name: Create video
+      run: python scripts/create_video.py
+
+    - name: Upload video artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: kids-video-output
+        path: output/
