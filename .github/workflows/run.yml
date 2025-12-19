@@ -48,10 +48,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: kids-video-output
-        path: output/      run: python scripts/create_video.py
-
-    - name: Upload video artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: kids-video-output
         path: output/
