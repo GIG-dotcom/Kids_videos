@@ -1,0 +1,7 @@
+Elephant
+Rabbit
+Lion
+Monkey
+Panda
+Dog
+Cat
