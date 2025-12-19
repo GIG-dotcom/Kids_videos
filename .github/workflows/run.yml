@@ -39,9 +39,4 @@ jobs:
       run: python scripts/create_video.py
 
     - name: List output files
-      run: ls -lh output      run: python scripts/generate_images.py
-
-    - name: Verify output files
-      run: |
-        echo "📂 Output directory contents:"
-        ls -lh output
+      run: ls -lh output
