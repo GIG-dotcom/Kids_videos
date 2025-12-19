@@ -1,27 +1,19 @@
 import random
 import os
 
-def load(file):
-    with open(file, "r") as f:
-        return [line.strip() for line in f if line.strip()]
-
-characters = load("stories/characters.txt")
-lessons = load("stories/lessons.txt")
-actions = load("stories/actions.txt")
-endings = load("stories/endings.txt")
+characters = ["Elephant", "Rabbit", "Monkey", "Panda", "Lion"]
+lessons = ["kindness", "sharing", "helping friends", "learning numbers", "being honest"]
 
 character = random.choice(characters)
 lesson = random.choice(lessons)
-action = random.choice(actions)
-ending = random.choice(endings)
 
 story = f"""
 Once upon a time, there was a happy {character}.
 
-One day, the {character} {action}.
-During this time, the {character} learned about {lesson}.
+The {character} went to play and learned about {lesson}.
+Everyone smiled and felt very happy.
 
-{ending}
+The end.
 """
 
 os.makedirs("output", exist_ok=True)
@@ -29,5 +21,4 @@ os.makedirs("output", exist_ok=True)
 with open("output/story.txt", "w") as f:
     f.write(story.strip())
 
-print("✅ Story generated successfully")
-print(story)
+print("✅ Story generated")
