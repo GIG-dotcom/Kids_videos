@@ -1,4 +1,4 @@
-name: Kids Video Bot – Step 6 (Final Video)
+name: Kids Video Bot – Step 7 (YouTube Metadata)
 
 on:
   workflow_dispatch:
@@ -6,7 +6,7 @@ on:
     - cron: "0 */6 * * *"
 
 jobs:
-  create-video:
+  youtube-meta:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,9 @@ jobs:
 
     - name: Create video
       run: python scripts/create_video.py
+
+    - name: Generate YouTube metadata
+      run: python scripts/generate_youtube_meta.py
 
     - name: List output files
       run: ls -lh output
