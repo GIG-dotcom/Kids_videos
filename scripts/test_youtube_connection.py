@@ -18,10 +18,10 @@ creds = Credentials(
     token_uri="https://oauth2.googleapis.com/token",
     client_id=CLIENT_ID,
     client_secret=CLIENT_SECRET,
+    scopes=SCOPES,   # ✅ SCOPES MUST BE HERE
 )
 
-# 🔑 THIS IS THE CRITICAL PART
-creds.scopes = SCOPES
+# Force token refresh with scopes
 creds.refresh(Request())
 
 youtube = build("youtube", "v3", credentials=creds)
