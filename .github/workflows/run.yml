@@ -20,8 +20,8 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg
-        wget https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_x86_64.tar.gz
-        tar -xzf piper_linux_x86_64.tar.gz
+        wget https://github.com/rhasspy/piper/releases/download/v1.2.0/piper_linux_x86_64.tar.gz -O piper.tar.gz
+        tar -xzf piper.tar.gz
 
     - name: Download Piper voice model
       run: |
