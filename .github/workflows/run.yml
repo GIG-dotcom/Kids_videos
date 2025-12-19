@@ -1,4 +1,4 @@
-name: Kids Video Bot – Step 2
+name: Kids Video Bot – Step 3 (Story)
 
 on:
   workflow_dispatch:
@@ -6,17 +6,20 @@ on:
     - cron: "0 */6 * * *"
 
 jobs:
-  run-python:
+  generate-story:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repo
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Setup Python
       uses: actions/setup-python@v5
       with:
         python-version: "3.10"
 
-    - name: Run Python script
-      run: python scripts/hello.py
+    - name: Generate story
+      run: python scripts/generate_story.py
+
+    - name: Show story
+      run: cat output/story.txt
