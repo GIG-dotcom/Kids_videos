@@ -8,9 +8,7 @@ CLIENT_SECRET = os.environ["YT_CLIENT_SECRET"]
 REFRESH_TOKEN = os.environ["YT_REFRESH_TOKEN"]
 
 SCOPES = [
-    "https://www.googleapis.com/auth/youtube.readonly",
-    "https://www.googleapis.com/auth/youtube.upload",
-]
+    "https://www.googleapis.com/auth/youtube.readonly"]
 
 creds = Credentials(
     token=None,
