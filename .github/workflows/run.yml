@@ -23,13 +23,16 @@ jobs:
         curl -L https://github.com/rhasspy/piper/releases/latest/download/piper_linux_x86_64.tar.gz -o piper.tar.gz
         tar -xzf piper.tar.gz
 
-    - name: Download Piper voice model
+    - name: Download Piper voice model (SAFE)
       run: |
        mkdir -p models
-       curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
+       curl -L \
+       https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
        -o models/voice.onnx
-       curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx.json \
+       curl -L \
+       https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx.json \
        -o models/voice.onnx.json
+       head -n 5 models/voice.onnx.json
 
     - name: Debug models folder
       run: ls -lh models
