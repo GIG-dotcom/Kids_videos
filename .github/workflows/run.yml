@@ -25,8 +25,7 @@ jobs:
       run: |
        pip install pillow piper-tts
       
-    - name: Debug models folder
-      run: ls -lh models
+  
   
     - name: Install Python libraries
       run: pip install pillow
