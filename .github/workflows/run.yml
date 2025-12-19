@@ -1,0 +1,14 @@
+name: Test Automation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */6 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Say Hello
+      run: echo "Hello! GitHub is running my code 🎉"
