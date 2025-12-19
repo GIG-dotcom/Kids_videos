@@ -41,6 +41,9 @@ jobs:
     - name: Generate images
       run: python scripts/generate_images.py
 
+    - name: Debug output files
+      run: ls -lh output
+       
     - name: Create video
       run: python scripts/create_video.py
 
