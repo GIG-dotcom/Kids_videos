@@ -38,10 +38,13 @@ for i in range(5):
     text = texts[i]
 
     # Emoji (top)
-    draw.text((WIDTH//2 - 50, 200), emoji, font=font_big, fill=(0, 0, 0))
+    draw.text((WIDTH // 2 - 50, 200), emoji, font=font_big, fill=(0, 0, 0))
 
-    # Text (center)
-    text_w, text_h = draw.textsize(text, font=font_small)
+    # Text (center) – FIXED
+    bbox = draw.textbbox((0, 0), text, font=font_small)
+    text_w = bbox[2] - bbox[0]
+    text_h = bbox[3] - bbox[1]
+
     draw.text(
         ((WIDTH - text_w) // 2, HEIGHT // 2),
         text,
@@ -50,9 +53,13 @@ for i in range(5):
     )
 
     # Footer
+    footer = "Kids Story Time"
+    footer_bbox = draw.textbbox((0, 0), footer, font=font_small)
+    footer_w = footer_bbox[2] - footer_bbox[0]
+
     draw.text(
-        (WIDTH//2 - 120, HEIGHT - 200),
-        "Kids Story Time",
+        ((WIDTH - footer_w) // 2, HEIGHT - 200),
+        footer,
         font=font_small,
         fill=(0, 0, 0)
     )
