@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Setup Python
@@ -16,36 +16,29 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install system tools
-    run: |
-     sudo apt-get update
-     sudo apt-get install -y ffmpeg
-     curl -L https://github.com/rhasspy/piper/releases/latest/download/piper_linux_x86_64.tar.gz -o piper.tar.gz
-     tar -xzf piper.tar.gz
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg
+        curl -L https://github.com/rhasspy/piper/releases/latest/download/piper_linux_x86_64.tar.gz -o piper.tar.gz
+        tar -xzf piper.tar.gz
 
-     - name: Download Piper voice model
-       run: |
-         mkdir -p models
-         wget https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
-         -O models/voice.onnx
+    - name: Download Piper voice model
+      run: |
+        mkdir -p models
+        curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
+        -o models/voice.onnx
 
-     - name: Install Python libs
+    - name: Install Python libraries
       run: pip install pillow
 
-      - name: Generate story
+    - name: Generate story
       run: python scripts/generate_story.py
 
-     - name: Generate voice
+    - name: Generate voice
       run: python scripts/generate_voice.py
 
-     - name: Generate images
+    - name: Generate images
       run: python scripts/generate_images.py
 
-     - name: Create video
-      run: python scripts/create_video.py
-
-     - name: Upload output
-      uses: actions/upload-artifact@v4
-      with:
-        name: kids-video-output
-        path: output/
+    - name: Create video
