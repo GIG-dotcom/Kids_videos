@@ -1,4 +1,4 @@
-name: Kids Video Bot – Step 5 (Images)
+name: Kids Video Bot – Step 5 (Images + Voice FIXED)
 
 on:
   workflow_dispatch:
@@ -6,11 +6,11 @@ on:
     - cron: "0 */6 * * *"
 
 jobs:
-  generate-images:
+  generate-assets:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Setup Python
@@ -18,8 +18,14 @@ jobs:
       with:
         python-version: "3.10"
 
-    - name: Install dependencies
-      run: pip install pillow
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y espeak-ng
+
+    - name: Install Python dependencies
+      run: |
+        pip install pillow
 
     - name: Generate story
       run: python scripts/generate_story.py
@@ -30,5 +36,7 @@ jobs:
     - name: Generate images
       run: python scripts/generate_images.py
 
-    - name: List output files
-      run: ls -lh output
+    - name: Verify output files
+      run: |
+        echo "📂 Output directory contents:"
+        ls -lh output
