@@ -1,5 +1,5 @@
-import os
 import subprocess
+import os
 
 output_dir = "output"
 video_file = os.path.join(output_dir, "final_video.mp4")
@@ -11,8 +11,6 @@ images = [
     "img_04.png",
     "img_05.png",
 ]
-
-audio = "voice.wav"
 
 list_file = os.path.join(output_dir, "images.txt")
 with open(list_file, "w") as f:
@@ -26,7 +24,7 @@ command = [
     "-f", "concat",
     "-safe", "0",
     "-i", list_file,
-    "-i", os.path.join(output_dir, audio),
+    "-i", os.path.join(output_dir, "voice.wav"),
     "-c:v", "libx264",
     "-pix_fmt", "yuv420p",
     "-c:a", "aac",
@@ -36,12 +34,4 @@ command = [
 
 subprocess.run(command, check=True)
 
-print("🎬 Video created:", video_file)    "-pix_fmt", "yuv420p",
-    "-c:a", "aac",
-    "-shortest",
-    video_file
-]
-
-subprocess.run(command, check=True)
-
-print("🎬 Video created successfully:", video_file)
+print("🎬 Video created:", video_file)
