@@ -42,3 +42,10 @@ jobs:
       run: python scripts/generate_images.py
 
     - name: Create video
+      run: python scripts/create_video.py
+
+    - name: Upload output as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: kids-video-output
+        path: output/
