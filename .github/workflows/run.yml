@@ -25,10 +25,15 @@ jobs:
 
     - name: Download Piper voice model
       run: |
-        mkdir -p models
-        curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
-        -o models/voice.onnx
+       mkdir -p models
+       curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx \
+       -o models/voice.onnx
+       curl -L https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/libritts/en_US-libritts-high.onnx.json \
+       -o models/voice.onnx.json
 
+    - name: Debug models folder
+      run: ls -lh models
+  
     - name: Install Python libraries
       run: pip install pillow
 
