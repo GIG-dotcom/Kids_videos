@@ -38,9 +38,15 @@ jobs:
         
     - name: Generate story
       env:
-         HF_API_TOKEN: ${{ "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" }}
+         HF_API_TOKEN: ${{ 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 }}
          run: python scripts/generate_story.py     
-  
+    - name: Debug HF token presence
+      run: |
+       if [ -z "$HF_API_TOKEN" ]; then
+       echo "HF_API_TOKEN is NOT set"
+       else
+       echo "HF_API_TOKEN is set"
+       fi
     - name: Create background video
       run: python scripts/create_background_video.py
 
