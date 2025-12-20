@@ -6,13 +6,15 @@ from moviepy import (
     ImageClip,
     concatenate_videoclips,
 )
+from moviepy.video.fx.fadein import fadein
+from moviepy.video.fx.fadeout import fadeout
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
 import sys
 
 # -------------------------------------------------
-# PATHS (MATCH YOUR REPO STRUCTURE)
+# PATHS (MATCH YOUR REPO)
 # -------------------------------------------------
 BACKGROUND_VIDEO = "assets/background.mp4"
 BACKGROUND_MUSIC = "Music/background_music.wav"
@@ -33,15 +35,15 @@ for path in [BACKGROUND_VIDEO, BACKGROUND_MUSIC, VOICE_AUDIO, STORY_FILE]:
 os.makedirs("output", exist_ok=True)
 
 # -------------------------------------------------
-# LOAD VOICE & MUSIC
+# LOAD AUDIO
 # -------------------------------------------------
 voice = AudioFileClip(VOICE_AUDIO)
 music = AudioFileClip(BACKGROUND_MUSIC)
 
-# Ensure minimum length
+# Final duration (minimum 30s)
 duration = max(30, voice.duration + 1)
 
-# ---- MUSIC: extend or cut safely (MoviePy 2.x way)
+# ---- Background music handling (NO loop helpers)
 if music.duration >= duration:
     music = music.subclipped(0, duration)
 else:
@@ -54,7 +56,7 @@ voice = voice.with_volume_scaled(1.0)
 final_audio = CompositeAudioClip([music, voice])
 
 # -------------------------------------------------
-# BACKGROUND VIDEO: extend or cut safely
+# BACKGROUND VIDEO HANDLING (NO loop helpers)
 # -------------------------------------------------
 base_bg = VideoFileClip(BACKGROUND_VIDEO).resized((720, 1280))
 
@@ -96,15 +98,16 @@ def create_text_image(text):
 text_image_path = create_text_image(story_text)
 
 # -------------------------------------------------
-# TEXT CLIP
+# TEXT CLIP (FX-BASED FADES – CORRECT WAY)
 # -------------------------------------------------
 text_clip = (
     ImageClip(text_image_path)
     .with_duration(duration)
     .with_position("center")
-    .with_fadein(0.5)
-    .with_fadeout(0.5)
 )
+
+text_clip = fadein(text_clip, 0.5)
+text_clip = fadeout(text_clip, 0.5)
 
 # -------------------------------------------------
 # COMPOSE FINAL VIDEO
