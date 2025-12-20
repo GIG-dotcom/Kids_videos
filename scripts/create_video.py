@@ -6,8 +6,6 @@ from moviepy import (
     ImageClip,
     concatenate_videoclips,
 )
-from moviepy.video.fx.fadein import fadein
-from moviepy.video.fx.fadeout import fadeout
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
@@ -40,10 +38,9 @@ os.makedirs("output", exist_ok=True)
 voice = AudioFileClip(VOICE_AUDIO)
 music = AudioFileClip(BACKGROUND_MUSIC)
 
-# Final duration (minimum 30s)
 duration = max(30, voice.duration + 1)
 
-# ---- Background music handling (NO loop helpers)
+# ---- Background music: extend or trim (stable way)
 if music.duration >= duration:
     music = music.subclipped(0, duration)
 else:
@@ -56,7 +53,7 @@ voice = voice.with_volume_scaled(1.0)
 final_audio = CompositeAudioClip([music, voice])
 
 # -------------------------------------------------
-# BACKGROUND VIDEO HANDLING (NO loop helpers)
+# BACKGROUND VIDEO: extend or trim (stable way)
 # -------------------------------------------------
 base_bg = VideoFileClip(BACKGROUND_VIDEO).resized((720, 1280))
 
@@ -98,16 +95,13 @@ def create_text_image(text):
 text_image_path = create_text_image(story_text)
 
 # -------------------------------------------------
-# TEXT CLIP (FX-BASED FADES – CORRECT WAY)
+# TEXT CLIP (NO FADES – STABLE)
 # -------------------------------------------------
 text_clip = (
     ImageClip(text_image_path)
     .with_duration(duration)
     .with_position("center")
 )
-
-text_clip = fadein(text_clip, 0.5)
-text_clip = fadeout(text_clip, 0.5)
 
 # -------------------------------------------------
 # COMPOSE FINAL VIDEO
