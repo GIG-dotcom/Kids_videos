@@ -5,6 +5,7 @@ from moviepy import (
     CompositeAudioClip,
     ImageClip,
 )
+from moviepy.audio.fx import audio_loop
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
@@ -46,7 +47,7 @@ music = AudioFileClip(BACKGROUND_MUSIC)
 
 duration = max(30, voice.duration + 1)
 
-music = music.looped(duration=duration).with_volume_scaled(0.15)
+music = audio_loop(music, duration=duration).with_volume_scaled(0.15)
 voice = voice.with_volume_scaled(1.0)
 
 final_audio = CompositeAudioClip([music, voice])
