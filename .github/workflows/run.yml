@@ -38,8 +38,9 @@ jobs:
         
     - name: Generate story
       env:
-         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: ${{ secrets.HF_API_TOKEN }}
-         run: python scripts/generate_story.py     
+       HF_API_TOKEN: ${{ secrets.HF_API_TOKEN }}
+       run: python scripts/generate_story.py
+    
     - name: Debug HF token presence
       run: |
        if [ -z "$HF_API_TOKEN" ]; then
