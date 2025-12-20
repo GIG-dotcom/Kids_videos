@@ -39,24 +39,23 @@ for f in required_files:
 os.makedirs("output", exist_ok=True)
 
 # -----------------------------
-
-# -----------------------------
-# LOAD AUDIO (MOVIEPY 2.2.x SAFE)
+# LOAD AUDIO (MoviePy 2.2.x)
 # -----------------------------
 voice = AudioFileClip(VOICE_AUDIO)
 music = AudioFileClip(BACKGROUND_MUSIC)
 
 duration = max(30, voice.duration + 1)
 
-# If music is longer than needed → cut it
 if music.duration >= duration:
-    music = music.subclip(0, duration)
+    music = music.subclipped(0, duration)
 else:
-    # If music is shorter → repeat manually
     repeats = int(duration // music.duration) + 1
-    music = music.subclip(0, music.duration).with_duration(music.duration)
-    music = CompositeAudioClip([music] * repeats).subclip(0, duration)
+    music = CompositeAudioClip([music] * repeats).subclipped(0, duration)
 
+music = music.with_volume_scaled(0.15)
+voice = voice.with_volume_scaled(1.0)
+
+final_audio = CompositeAudioClip([music, voice])
 # Volume control
 music = music.with_volume_scaled(0.15)
 voice = voice.with_volume_scaled(1.0)
