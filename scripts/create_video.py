@@ -5,10 +5,12 @@ import os
 
 
 # Paths
+#BACKGROUND_VIDEO = "assets/background.mp4"
+#AUDIO_FILE = "output/voice.wav"
+#OUTPUT_VIDEO = "output/final_video.mp4"
 BACKGROUND_VIDEO = "assets/background.mp4"
+BACKGROUND_MUSIC = "Music/background_music.wav"
 AUDIO_FILE = "output/voice.wav"
-OUTPUT_VIDEO = "output/final_video.mp4"
-
 # Load audio
 audio = AudioFileClip(AUDIO_FILE)
 duration = audio.duration + 1  # little buffer
