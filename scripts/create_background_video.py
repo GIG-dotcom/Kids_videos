@@ -13,7 +13,7 @@ colors = [
 ]
 
 clips = [
-    ColorClip((WIDTH, HEIGHT), color=c).set_duration(DURATION / len(colors))
+    ColorClip(size=(WIDTH, HEIGHT), color=c).with_duration(DURATION / len(colors))
     for c in colors
 ]
 
@@ -26,4 +26,4 @@ final.write_videofile(
     audio=False
 )
 
-print("✅ assets/background.mp4 created")
+print("✅ assets/background.mp4 created successfully")
