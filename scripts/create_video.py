@@ -1,50 +1,67 @@
-import subprocess
+from moviepy.editor import *
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
 import os
-import sys
 
-output_dir = "output"
-video_file = os.path.join(output_dir, "final_video.mp4")
-voice_file = os.path.join(output_dir, "voice.wav")
+# Paths
+BACKGROUND_VIDEO = "assets/background.mp4"
+AUDIO_FILE = "output/voice.mp3"
+OUTPUT_VIDEO = "output/final_video.mp4"
 
-images = [
-    "img_01.png",
-    "img_02.png",
-    "img_03.png",
-    "img_04.png",
-    "img_05.png",
-]
+# Load audio
+audio = AudioFileClip(AUDIO_FILE)
+duration = audio.duration + 1  # little buffer
 
-# Safety checks
-if not os.path.exists(voice_file):
-    print("❌ voice.wav missing, cannot create video")
-    sys.exit(1)
+# Load & loop background video
+bg = (
+    VideoFileClip(BACKGROUND_VIDEO)
+    .resize((720, 1280))
+    .loop(duration=duration)
+)
 
-for img in images:
-    if not os.path.exists(os.path.join(output_dir, img)):
-        print(f"❌ Missing image: {img}")
-        sys.exit(1)
+# Read story text
+with open("output/story.txt") as f:
+    story_text = f.read()
 
-# Create images.txt
-list_file = os.path.join(output_dir, "images.txt")
-with open(list_file, "w") as f:
-    for img in images:
-        f.write(f"file '{img}'\n")
-        f.write("duration 6\n")
+# ---------- CREATE TEXT IMAGE ----------
+def create_text_image(text):
+    font = ImageFont.truetype("DejaVuSans-Bold.ttf", 52)
+    lines = textwrap.wrap(text, width=28)
 
-command = [
-    "ffmpeg",
-    "-y",
-    "-f", "concat",
-    "-safe", "0",
-    "-i", list_file,
-    "-i", voice_file,
-    "-c:v", "libx264",
-    "-pix_fmt", "yuv420p",
-    "-c:a", "aac",
-    "-shortest",
-    video_file
-]
+    img = Image.new("RGBA", (680, len(lines) * 80 + 40), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
 
-subprocess.run(command, check=True)
+    y = 20
+    for line in lines:
+        draw.text((20, y), line, font=font, fill="white")
+        y += 70
 
-print("🎬 Video created successfully:", video_file)
+    img_path = "output/text.png"
+    img.save(img_path)
+    return img_path
+
+text_img = create_text_image(story_text)
+
+text_clip = (
+    ImageClip(text_img)
+    .set_duration(duration)
+    .set_position("center")
+    .fadein(0.5)
+    .fadeout(0.5)
+)
+
+# Combine video + text
+final = CompositeVideoClip([bg, text_clip])
+final = final.set_audio(audio)
+
+# Export high quality
+final.write_videofile(
+    OUTPUT_VIDEO,
+    fps=24,
+    codec="libx264",
+    audio_codec="aac",
+    bitrate="4000k",
+    threads=4
+)
+
+print("🎬 High-quality video created:", OUTPUT_VIDEO)
