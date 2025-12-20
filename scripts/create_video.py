@@ -5,7 +5,6 @@ from moviepy import (
     CompositeAudioClip,
     ImageClip,
 )
-from moviepy.audio.fx import audio_loop
 from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
