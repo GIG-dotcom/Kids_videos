@@ -25,7 +25,7 @@ jobs:
   
   
     - name: Install Python libraries
-      run: python -m pip install moviepy pillow gtts numpy
+      run: python -m pip install moviepy pillow gtts numpy scipy
       
     - name: Debug moviepy install
       run: |
@@ -35,7 +35,12 @@ jobs:
         from moviepy import VideoFileClip
         print("moviepy import OK")
         EOF
-    
+    - name: Create background video
+      run: python scripts/create_background_video.py
+
+    - name: Create background music
+      run: python scripts/create_background_music.py
+       
     - name: Generate story
       run: python scripts/generate_story.py
 
