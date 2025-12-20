@@ -17,7 +17,7 @@ PART_FILES = [f"{OUTPUT_DIR}/part{i}.txt" for i in range(1, 6)]
 # HUGGING FACE CONFIG
 # -----------------------------
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-MODEL_URL = "https://router.huggingface.co/hf-inference/models/google/flan-t5-large"
+MODEL_URL = "https://router.huggingface.co/models/google/flan-t5-large"
 
 if not HF_API_TOKEN:
     raise Exception("❌ HF_API_TOKEN not found in environment")
