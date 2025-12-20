@@ -11,7 +11,7 @@ import os
 import sys
 
 # -----------------------------
-# PATHS (MATCH YOUR REPO)
+# PATHS
 # -----------------------------
 BACKGROUND_VIDEO = "assets/background.mp4"
 BACKGROUND_MUSIC = "Music/background_music.wav"
@@ -24,16 +24,9 @@ TEXT_IMAGE = "output/text.png"
 # -----------------------------
 # SAFETY CHECKS
 # -----------------------------
-required_files = [
-    BACKGROUND_VIDEO,
-    BACKGROUND_MUSIC,
-    VOICE_AUDIO,
-    STORY_FILE,
-]
-
-for f in required_files:
+for f in [BACKGROUND_VIDEO, BACKGROUND_MUSIC, VOICE_AUDIO, STORY_FILE]:
     if not os.path.exists(f):
-        print(f"❌ Required file missing: {f}")
+        print(f"❌ Missing file: {f}")
         sys.exit(1)
 
 os.makedirs("output", exist_ok=True)
@@ -56,29 +49,24 @@ music = music.with_volume_scaled(0.15)
 voice = voice.with_volume_scaled(1.0)
 
 final_audio = CompositeAudioClip([music, voice])
-# Volume control
-music = music.with_volume_scaled(0.15)
-voice = voice.with_volume_scaled(1.0)
-
-final_audio = CompositeAudioClip([music, voice])
 
 # -----------------------------
 # LOAD BACKGROUND VIDEO
 # -----------------------------
 bg = (
     VideoFileClip(BACKGROUND_VIDEO)
-    .resize((720, 1280))
-    .loop(duration=duration)
+    .resized((720, 1280))
+    .looped(duration=duration)
 )
 
 # -----------------------------
-# READ STORY TEXT
+# READ STORY
 # -----------------------------
 with open(STORY_FILE, "r") as f:
     story_text = f.read().strip()
 
 if not story_text:
-    print("❌ Story text is empty")
+    print("❌ Story text empty")
     sys.exit(1)
 
 # -----------------------------
@@ -88,8 +76,7 @@ def create_text_image(text):
     font = ImageFont.truetype("DejaVuSans-Bold.ttf", 52)
     lines = textwrap.wrap(text, width=28)
 
-    img_height = len(lines) * 80 + 40
-    img = Image.new("RGBA", (680, img_height), (0, 0, 0, 0))
+    img = Image.new("RGBA", (680, len(lines) * 80 + 40), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     y = 20
@@ -107,20 +94,19 @@ text_image_path = create_text_image(story_text)
 # -----------------------------
 text_clip = (
     ImageClip(text_image_path)
-    .set_duration(duration)
-    .set_position("center")
-    .fadein(0.5)
-    .fadeout(0.5)
+    .with_duration(duration)
+    .with_position("center")
+    .with_fadein(0.5)
+    .with_fadeout(0.5)
 )
 
 # -----------------------------
 # COMPOSE FINAL VIDEO
 # -----------------------------
-final = CompositeVideoClip([bg, text_clip])
-final = final.set_audio(final_audio)
+final = CompositeVideoClip([bg, text_clip]).with_audio(final_audio)
 
 # -----------------------------
-# EXPORT VIDEO
+# EXPORT
 # -----------------------------
 final.write_videofile(
     OUTPUT_VIDEO,
