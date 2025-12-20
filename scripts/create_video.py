@@ -46,8 +46,8 @@ music = AudioFileClip(BACKGROUND_MUSIC)
 
 duration = max(30, voice.duration + 1)
 
-music = music.loop(duration=duration).volumex(0.15)
-voice = voice.volumex(1.0)
+music = music.looped(duration=duration).with_volume_scaled(0.15)
+voice = voice.with_volume_scaled(1.0)
 
 final_audio = CompositeAudioClip([music, voice])
 
