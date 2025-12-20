@@ -25,8 +25,17 @@ jobs:
   
   
     - name: Install Python libraries
-      run: pip install moviepy pillow gtts numpy
-
+      run: python -m pip install moviepy pillow gtts numpy
+      
+    - name: Debug moviepy install
+      run: |
+        python - <<EOF
+        import moviepy
+        print("moviepy version:", moviepy.__version__)
+        from moviepy.editor import VideoFileClip
+        print("moviepy.editor import OK")
+        EOF
+    
     - name: Generate story
       run: python scripts/generate_story.py
 
