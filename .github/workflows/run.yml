@@ -35,14 +35,15 @@ jobs:
         from moviepy import VideoFileClip
         print("moviepy import OK")
         EOF
+               
+    - name: Generate story
+      run: python scripts/generate_story.py
+      
     - name: Create background video
       run: python scripts/create_background_video.py
 
     - name: Create background music
       run: python scripts/create_background_music.py
-       
-    - name: Generate story
-      run: python scripts/generate_story.py
 
     - name: Generate voice
       run: python scripts/generate_voice.py
