@@ -3,9 +3,11 @@ from PIL import Image, ImageDraw, ImageFont
 import textwrap
 import os
 
+if not os.path.exists(AUDIO_FILE):
+raise FileNotFoundError(f"Audio file missing: {AUDIO_FILE}")
 # Paths
 BACKGROUND_VIDEO = "assets/background.mp4"
-AUDIO_FILE = "output/voice.mp3"
+AUDIO_FILE = "output/voice.wav"
 OUTPUT_VIDEO = "output/final_video.mp4"
 
 # Load audio
