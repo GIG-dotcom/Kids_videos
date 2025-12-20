@@ -32,8 +32,8 @@ jobs:
         python - <<EOF
         import moviepy
         print("moviepy version:", moviepy.__version__)
-        from moviepy.editor import VideoFileClip
-        print("moviepy.editor import OK")
+        from moviepy import VideoFileClip
+        print("moviepy import OK")
         EOF
     
     - name: Generate story
