@@ -35,10 +35,12 @@ jobs:
         from moviepy import VideoFileClip
         print("moviepy import OK")
         EOF
-               
+        
     - name: Generate story
-      run: python scripts/generate_story.py
-      
+      env:
+         HF_API_TOKEN: ${{ "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" }}
+         run: python scripts/generate_story.py     
+  
     - name: Create background video
       run: python scripts/create_background_video.py
 
